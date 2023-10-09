@@ -6,20 +6,16 @@ using NUnit.Framework;
 namespace LW1.Tests
 {
     [TestFixture]
-    public abstract class BaseTest
+    public class BaseTest<T>
     {
-        protected DoubleEndedQueue<T> CreateDeque<T>()
+        protected DoubleEndedQueue<T> Deque;
+        [SetUp]
+        public void SetUp()
         {
-            return new DoubleEndedQueue<T>();
+            Deque = new DoubleEndedQueue<T>();
+           
         }
-        protected void AssertDequeIsEmpty<T>(DoubleEndedQueue<T>deque)
-        {
-            deque.Count.Should().Be(0);
-            deque.Head.Should().BeNull();
-            deque.Tail.Should().BeNull();
-        }
-
-        //protected IFixture Fixture { get; } = new Fixture();
+        
 
     }
 }
