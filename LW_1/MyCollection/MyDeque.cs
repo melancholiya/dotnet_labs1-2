@@ -6,7 +6,7 @@ using LW1.MyCollectionLogic;
 
 namespace LW1.MyCollection;
 
-public class DoubleEndedQueue<T>:ICollection<T>
+public class DoubleEndedQueue<T> : ICollection<T>
 {
     private MyDequeNode<T> _head;
 
@@ -18,7 +18,7 @@ public class DoubleEndedQueue<T>:ICollection<T>
         set => _head = value;
     }
 
-    public MyDequeNode<T>Tail
+    public MyDequeNode<T> Tail
     {
         get => _tail;
         set => _tail = value;
@@ -28,18 +28,23 @@ public class DoubleEndedQueue<T>:ICollection<T>
     /// Gets the number of elements contained in the deque
     /// </summary>
     public int Count { get; set; }
+
     /// <summary>
     /// Gets a value indicating whether the deque is read-only
     /// </summary>
     public bool IsReadOnly => false;
+
     public event EventHandler<T> ElementAdded;
     public event EventHandler<T> ElementRemoved;
     public event EventHandler<EventArgs> CollectionCleared;
     public event EventHandler<T> AddedToBeginning;
     public event EventHandler<T> AddedToEnd;
-    
-    public DoubleEndedQueue() { }
-    public DoubleEndedQueue(IEnumerable<T>collection)
+
+    public DoubleEndedQueue()
+    {
+    }
+
+    public DoubleEndedQueue(IEnumerable<T> collection)
     {
         if (collection is null)
         {
@@ -51,14 +56,14 @@ public class DoubleEndedQueue<T>:ICollection<T>
             Add(item);
         }
     }
-    
+
     /// <summary>
     /// Removes a specific item from the deque
     /// </summary>
     public bool Remove(T item)
     {
         var node = Head;
-        while (node!=null)
+        while (node != null)
         {
             if (node.Value.Equals(item))
             {
@@ -66,53 +71,56 @@ public class DoubleEndedQueue<T>:ICollection<T>
                 {
                     RemoveFirst();
                 }
-                else if (node ==Tail )
+                else if (node == Tail)
                 {
                     RemoveLast();
                 }
-                
+
                 else
                 {
                     node.Previous.Next = node.Next;
                     node.Next.Previous = node.Previous;
                 }
+
                 Count--;
-                ElementRemoved?.Invoke(this,item);
+                ElementRemoved?.Invoke(this, item);
                 return true;
-            } 
+            }
+
             node = node.Next;
         }
+
         return false;
     }
-    
+
     /// <summary>
     /// Removes and returns the item at the front of the deque
     /// </summary>
     /// <exception cref="InvalidOperationException">If collection is empty</exception>
     public T RemoveFirst()
-{
-    if (Count == 0)
     {
-        throw new InvalidOperationException("Deque is empty.");
+        if (Count == 0)
+        {
+            throw new InvalidOperationException("Deque is empty.");
+        }
+
+        var item = Head.Value;
+        if (Count == 1)
+        {
+            Head = null;
+            Tail = null;
+        }
+        else
+        {
+            Head = Head.Next;
+            Head.Previous = null;
+        }
+
+        Count--;
+        ElementRemoved?.Invoke(this, item);
+        return item;
     }
 
-    var item = Head.Value;
-    if (Count == 1)
-    {
-        Head = null;
-        Tail = null;
-    }
-    else
-    {
-        Head=Head.Next;
-        Head.Previous = null;
-    }
-
-    Count--;
-    ElementRemoved?.Invoke(this,item);
-    return item;
-    
-}
     /// <summary>
     ///  Removes and returns the item at the end of the deque
     /// </summary>
@@ -134,45 +142,46 @@ public class DoubleEndedQueue<T>:ICollection<T>
             Tail = Tail.Previous;
             Tail.Next = null;
         }
-        Count--;
-        ElementRemoved?.Invoke(this,item);
-        return item;
-    
-    }
-    
-/// <summary>
-/// Adds an item to the front of the deque
-/// </summary>
-        public void AddFirst(T item)
-        {
-            MyDequeNode<T> newNode = new MyDequeNode<T>(item);
-            if (Count == 0)
-            {
-                Head = newNode;
-                Tail = newNode;
-            }
-            else
-            {
-                newNode.Next = Head;
-                Head.Previous = newNode;
-                Head = newNode;
-            }
 
-            Count++;
-            AddedToBeginning?.Invoke(this,item);
+        Count--;
+        ElementRemoved?.Invoke(this, item);
+        return item;
+    }
+
+    /// <summary>
+    /// Adds an item to the front of the deque
+    /// </summary>
+    public void AddFirst(T item)
+    {
+        MyDequeNode<T> newNode = new MyDequeNode<T>(item);
+        if (Count == 0)
+        {
+            Head = newNode;
+            Tail = newNode;
+        }
+        else
+        {
+            newNode.Next = Head;
+            Head.Previous = newNode;
+            Head = newNode;
         }
 
-/// <summary>
-/// Adds an item to the end of the deque
-/// </summary>
+        Count++;
+        AddedToBeginning?.Invoke(this, item);
+    }
+
+    /// <summary>
+    /// Adds an item to the end of the deque
+    /// </summary>
     public void AddLast(T item)
     {
         if (item == null)
         {
             throw new ArgumentNullException(nameof(item), "Елемент не може бути null.");
         }
+
         MyDequeNode<T> newNode = new MyDequeNode<T>(item);
-        
+
         if (Count == 0)
         {
             Head = newNode;
@@ -186,146 +195,107 @@ public class DoubleEndedQueue<T>:ICollection<T>
         }
 
         Count++;
-        AddedToEnd?.Invoke(this,item);
+        AddedToEnd?.Invoke(this, item);
     }
-public void Add(T item)
-{
-    if (Head == null)
-    {
-        AddFirst(item);
-    }
-    else
-    {
-        AddLast(item);
-    }
-    ElementAdded?.Invoke(this, item);
-}
-/// <summary>
-/// Clears the contents of the deque
-/// </summary>
-public void Clear()
-{
-    while (Head != null)
-    {
-        var nextNode = Head.Next;
-        Head = null;
-        Head = nextNode;
-    }
-    Tail = null;
-    Count = 0;
-    
-    CollectionCleared?.Invoke(this, EventArgs.Empty);
-}
 
-/// <summary>
-/// Checks if the deque contains a specific item
-/// </summary>
-public bool Contains(T item)
-{
-    MyDequeNode<T>current = Head;
-    while (current!=null)
+    public void Add(T item)
     {
-        if (current.Value.Equals(item))
+        if (Head == null)
         {
-            return true;
+            AddFirst(item);
         }
-        current = current.Next;
-    }
-    return false;
-}
-/// <summary>
-/// Copies the elements of the deque to an array, starting at a particular array index
-/// </summary>
-/// <param name="array">Array size</param>
-/// <param name="arrayIndex">The index value of the array from which to start copying</param>
-/// <exception cref="ArgumentNullException">If array is empty</exception>
-/// <exception cref="ArgumentOutOfRangeException">Value of an argument is outside the allowable range of values as defined by the invoked method</exception>
-/// <exception cref="ArgumentException">Explains the reason for the exception</exception>
-public void CopyTo(T[] array, int arrayIndex)
-{
-    if (array is null)
-    {
-        throw new ArgumentNullException(nameof(array), "Array is null.");
-    }
-
-    if (arrayIndex < 0)
-    {
-        throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index must be non-negative");
-    }
-
-    if (array.Length - arrayIndex < Count)
-    {
-        throw new ArgumentException("The number of elements in the source deque is " +
-                                    "greater than the available space from arrayIndex to the " +
-                                    "end of the destination array.");
-    }
-
-    MyDequeNode<T>current = Head;
-    while (current!=null)
-    {
-        array[arrayIndex++] = current.Value;
-        current = current.Next;
-    }
-}
-
-/*private class MyEnumerator : IEnumerator<T>
+        else
         {
-            private readonly DoubleEndedQueue<T> _doubleEndedQueue;
-            private MyDequeNode<T> _node;
-            private T _currentElement;
-            public T Current => _currentElement;
-            object IEnumerator.Current => _currentElement;    
-            
-            public MyEnumerator(DoubleEndedQueue<T>doubleEndedQueue)
-            {
-                _doubleEndedQueue = doubleEndedQueue;
-                _currentElement = default(T);
-                _node = doubleEndedQueue.Head;
-            }
+            AddLast(item);
+        }
 
-            public bool MoveNext()
-            {
-                if (_node == null||_node==_doubleEndedQueue.Tail)
-                {
-                    return false;
-                }
-                _currentElement = _node!.Value;
-                _node = _node.Next;
-                if (_node == _doubleEndedQueue.Head)
-                {
-                    _node = null;
-                }
+        ElementAdded?.Invoke(this, item);
+    }
 
+    /// <summary>
+    /// Clears the contents of the deque
+    /// </summary>
+    public void Clear()
+    {
+        while (Head != null)
+        {
+            var nextNode = Head.Next;
+            Head = null;
+            Head = nextNode;
+        }
+
+        Tail = null;
+        Count = 0;
+
+        CollectionCleared?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Checks if the deque contains a specific item
+    /// </summary>
+    public bool Contains(T item)
+    {
+        MyDequeNode<T> current = Head;
+        while (current != null)
+        {
+            if (current.Value.Equals(item))
+            {
                 return true;
             }
-            
-            public void Reset()
-            {
-                _currentElement = default(T);
-            }
 
-            public void Dispose()
-            { 
-            }*/
-            //Implement GetEnumerator using yield
-             public IEnumerator<T>GetEnumerator()
-             {
-                 MyDequeNode<T> current = Head;
-                 while (current != null)
-                 {
-                     yield return current.Value;
-                     current = current.Next;
-                 }
-            
+            current = current.Next;
+        }
 
+        return false;
     }
-    /*public IEnumerator<T> GetEnumerator()
+
+    /// <summary>
+    /// Copies the elements of the deque to an array, starting at a particular array index
+    /// </summary>
+    /// <param name="array">Array size</param>
+    /// <param name="arrayIndex">The index value of the array from which to start copying</param>
+    /// <exception cref="ArgumentNullException">If array is empty</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Value of an argument is outside the allowable range of values as defined by the invoked method</exception>
+    /// <exception cref="ArgumentException">Explains the reason for the exception</exception>
+    public void CopyTo(T[] array, int arrayIndex)
     {
-        return new MyEnumerator(this);
-    }*/
+        if (array is null)
+        {
+            throw new ArgumentNullException(nameof(array), "Array is null.");
+        }
+
+        if (arrayIndex < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index must be non-negative");
+        }
+
+        if (array.Length - arrayIndex < Count)
+        {
+            throw new ArgumentException("The number of elements in the source deque is " +
+                                        "greater than the available space from arrayIndex to the " +
+                                        "end of the destination array.");
+        }
+
+        MyDequeNode<T> current = Head;
+        while (current != null)
+        {
+            array[arrayIndex++] = current.Value;
+            current = current.Next;
+        }
+    }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        MyDequeNode<T> current = Head;
+        while (current != null)
+        {
+            yield return current.Value;
+            current = current.Next;
+        }
+    }
+
     IEnumerator IEnumerable.GetEnumerator()
     {
         return ((IEnumerable<T>)this).GetEnumerator();
     }
-    
 }
