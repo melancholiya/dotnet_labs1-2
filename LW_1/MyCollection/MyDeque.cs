@@ -6,7 +6,7 @@ using LW1.MyCollectionLogic;
 
 namespace LW1.MyCollection;
 
-public class DoubleEndedQueue<T>:ICollection<T>, IMydeque<T>
+public class DoubleEndedQueue<T>:ICollection<T>
 {
     private MyDequeNode<T> _head;
 
@@ -27,7 +27,7 @@ public class DoubleEndedQueue<T>:ICollection<T>, IMydeque<T>
     /// <summary>
     /// Gets the number of elements contained in the deque
     /// </summary>
-    public int Count { get; private set; }
+    public int Count { get; set; }
     /// <summary>
     /// Gets a value indicating whether the deque is read-only
     /// </summary>
@@ -48,7 +48,7 @@ public class DoubleEndedQueue<T>:ICollection<T>, IMydeque<T>
 
         foreach (var item in collection)
         {
-            AddLast(item);
+            Add(item);
         }
     }
     
@@ -96,7 +96,7 @@ public class DoubleEndedQueue<T>:ICollection<T>, IMydeque<T>
         throw new InvalidOperationException("Deque is empty.");
     }
 
-    T item = Head.Value;
+    var item = Head.Value;
     if (Count == 1)
     {
         Head = null;
@@ -118,8 +118,11 @@ public class DoubleEndedQueue<T>:ICollection<T>, IMydeque<T>
     /// </summary>
     public T RemoveLast()
     {
-        if(Count==0)
+        if (Count == 0)
+        {
             throw new InvalidOperationException("Deque is empty.");
+        }
+
         var item = Tail.Value;
         if (Count == 1)
         {
@@ -140,24 +143,24 @@ public class DoubleEndedQueue<T>:ICollection<T>, IMydeque<T>
 /// <summary>
 /// Adds an item to the front of the deque
 /// </summary>
-    public void AddFirst(T item)
-    {
-        MyDequeNode<T> newNode = new MyDequeNode<T>(item);
-        if (Count == 0)
+        public void AddFirst(T item)
         {
-            Head = newNode;
-            Tail = newNode;
-        }
-        else
-        {
-            newNode.Next = Head;
-            Head.Previous = newNode;
-            Head = newNode;
-        }
+            MyDequeNode<T> newNode = new MyDequeNode<T>(item);
+            if (Count == 0)
+            {
+                Head = newNode;
+                Tail = newNode;
+            }
+            else
+            {
+                newNode.Next = Head;
+                Head.Previous = newNode;
+                Head = newNode;
+            }
 
-        Count++;
-        AddedToBeginning?.Invoke(this,item);
-    }
+            Count++;
+            AddedToBeginning?.Invoke(this,item);
+        }
 
 /// <summary>
 /// Adds an item to the end of the deque
@@ -185,19 +188,17 @@ public class DoubleEndedQueue<T>:ICollection<T>, IMydeque<T>
         Count++;
         AddedToEnd?.Invoke(this,item);
     }
-
-private void AddItems(T value)
+public void Add(T item)
 {
     if (Head == null)
     {
-        AddFirst(value);
-    } 
-    AddLast(value);
-}
-public void Add(T item)
-{
-    AddItems(item);
-    ElementAdded?.Invoke(this,item);
+        AddFirst(item);
+    }
+    else
+    {
+        AddLast(item);
+    }
+    ElementAdded?.Invoke(this, item);
 }
 /// <summary>
 /// Clears the contents of the deque
@@ -210,7 +211,7 @@ public void Clear()
         Head = null;
         Head = nextNode;
     }
-    
+    Tail = null;
     Count = 0;
     
     CollectionCleared?.Invoke(this, EventArgs.Empty);
@@ -267,7 +268,7 @@ public void CopyTo(T[] array, int arrayIndex)
     }
 }
 
-private class MyEnumerator : IEnumerator<T>
+/*private class MyEnumerator : IEnumerator<T>
         {
             private readonly DoubleEndedQueue<T> _doubleEndedQueue;
             private MyDequeNode<T> _node;
@@ -284,7 +285,7 @@ private class MyEnumerator : IEnumerator<T>
 
             public bool MoveNext()
             {
-                if (_node == null &&_node!=_doubleEndedQueue.Tail)
+                if (_node == null||_node==_doubleEndedQueue.Tail)
                 {
                     return false;
                 }
@@ -305,26 +306,26 @@ private class MyEnumerator : IEnumerator<T>
 
             public void Dispose()
             { 
-            }
-            /*Implement GetEnumerator using yield
-            // public IEnumerator<T> GetEnumerator()
-            // {
-            //     MyDequeNode<T> current = Head;
-            //     while (current != null)
-            //     {
-            //         yield return current.Value;
-            //         current = current.Next;
-            //     }
-            */
+            }*/
+            //Implement GetEnumerator using yield
+             public IEnumerator<T>GetEnumerator()
+             {
+                 MyDequeNode<T> current = Head;
+                 while (current != null)
+                 {
+                     yield return current.Value;
+                     current = current.Next;
+                 }
+            
 
     }
-    public IEnumerator<T> GetEnumerator()
+    /*public IEnumerator<T> GetEnumerator()
     {
         return new MyEnumerator(this);
-    }
+    }*/
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return GetEnumerator();
+        return ((IEnumerable<T>)this).GetEnumerator();
     }
     
 }
