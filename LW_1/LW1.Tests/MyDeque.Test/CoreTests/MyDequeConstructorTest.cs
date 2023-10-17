@@ -10,10 +10,12 @@ public class MyDequeConstructorTest
     [Test]
     public void Constructor_WithNullCollection_ShouldThrowArgumentNullException()
     {
-        // Arrange, Act, and Assert
+        // Arrange
+        IEnumerable<int>collection = null;
+        // Act and Assert
         Assert.Throws<ArgumentNullException>(() =>
         {
-            var doubleEndedQueue = new DoubleEndedQueue<int>(null);
+            var doubleEndedQueue = new DoubleEndedQueue<int>(collection);
         });
     }
     [Test]
