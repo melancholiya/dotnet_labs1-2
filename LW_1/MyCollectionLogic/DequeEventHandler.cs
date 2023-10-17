@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using LW1.MyCollection;
 
 namespace LW1.MyCollectionLogic;

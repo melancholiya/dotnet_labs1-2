@@ -1,7 +1,9 @@
 using System;
 using FluentAssertions;
 using LW1.MyCollection;
+using LW1.Tests.DataContext;
 using NUnit.Framework;
+using TestCaseData = LW1.Tests.DataContext.TestCaseData;
 
 namespace LW1.Tests;
 
@@ -14,7 +16,6 @@ public class MyDequeCopyToTest
         // Arrange
         var deque = new DoubleEndedQueue<int>();
         var array = (int[])null;
-
         // Act and Assert
         Assert.Throws<ArgumentNullException>(() => deque.CopyTo(array, 0));
     }
@@ -24,7 +25,6 @@ public class MyDequeCopyToTest
         // Arrange
         var deque = new DoubleEndedQueue<int>();
         var array = new int[5];
-
         // Act and Assert
         Assert.Throws<ArgumentOutOfRangeException>(() => deque.CopyTo(array, -1));
     }
@@ -35,7 +35,6 @@ public class MyDequeCopyToTest
         // Arrange
         var deque = testData.Deque;
         var array = new int[1];
-
         // Act and Assert
         Assert.Throws<ArgumentException>(() => deque.CopyTo(array, 0));
     }
@@ -46,7 +45,6 @@ public class MyDequeCopyToTest
         // Arrange
         var deque = testData.Deque;
         var array = testData.Array;
-
         // Act}
         deque.CopyTo(array, 1);
         // Assert

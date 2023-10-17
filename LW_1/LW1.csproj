@@ -43,7 +43,6 @@
     <ItemGroup>
         <Compile Include="MyCollectionLogic\DequeEventHandler.cs" />
         <Compile Include="MyCollectionLogic\IDequeEventHandler.cs" />
-        <Compile Include="MyCollection\IMydeque.cs" />
         <Compile Include="MyCollection\MyDeque.cs" />
         <Compile Include="MyCollection\MyDequeNode.cs" />
         <Compile Include="MyConsoleApp\ConsoleApp.cs" />

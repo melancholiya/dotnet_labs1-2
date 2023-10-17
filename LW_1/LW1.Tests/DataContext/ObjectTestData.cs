@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using LW1.MyCollection;
 
-namespace LW1.Tests
+namespace LW1.Tests.DataContext
 {
     public class ObjectTestData
     {
@@ -25,7 +24,7 @@ namespace LW1.Tests
 
         public static IEnumerable<TestCaseData> GetTestCasesForCopyToMethod()
         {
-            yield return new TestCaseData(new DoubleEndedQueue<int>{1,2,3,4},new int[6],new int[]{0,1,2,3,4});
+            yield return new TestCaseData(new DoubleEndedQueue<int>{1,2,3,4},new int[6],new[]{0,1,2,3,4});
         }
         public static IEnumerable<TestCaseData>GetTestCasesForEnumerator()
         {

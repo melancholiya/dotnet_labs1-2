@@ -1,7 +1,7 @@
-﻿using System;
-using FluentAssertions;
-using Moq;
+﻿using FluentAssertions;
+using LW1.Tests.DataContext;
 using NUnit.Framework;
+using TestCaseData = LW1.Tests.DataContext.TestCaseData;
 
 namespace LW1.Tests.AddTests
 {
@@ -43,9 +43,6 @@ namespace LW1.Tests.AddTests
             var eventRaised = false;
             var deque = testCaseData.Deque;
             var expectedItem = testCaseData.ExpectedItem;
-            
-            var addedToBeginningHandlerMock = new Mock<EventHandler<int>>();
-            addedToBeginningHandlerMock.Setup(x => x.Invoke(deque, expectedItem));
             deque.AddedToBeginning += (sender, item) => eventRaised = true;
             //Act (When)
             deque.AddFirst(expectedItem);

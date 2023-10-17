@@ -7,8 +7,8 @@ namespace LW1.MyCollection
     public class MyDequeNode<T>
     {
         public T Value { get; internal set; }
-        public MyDequeNode<T> Previous { get; internal set; }
-        public MyDequeNode<T> Next { get; internal set; }
+        public MyDequeNode<T> Previous { get; set; }
+        public MyDequeNode<T> Next { get; set; }
         public MyDequeNode(T value)
         {
             Value = value;
