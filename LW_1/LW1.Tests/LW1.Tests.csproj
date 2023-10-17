@@ -13,6 +13,7 @@
         <AssemblyName>LW1.Tests</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,34 +38,59 @@
         <Reference Include="AutoFixture, Version=4.18.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
           <HintPath>..\packages\AutoFixture.4.18.0\lib\net452\AutoFixture.dll</HintPath>
         </Reference>
+        <Reference Include="Castle.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+          <HintPath>..\packages\Castle.Core.5.1.1\lib\net462\Castle.Core.dll</HintPath>
+        </Reference>
         <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
           <HintPath>..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
         </Reference>
         <Reference Include="FluentAssertions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
           <HintPath>..\packages\FluentAssertions.7.0.0-alpha.1\lib\net47\FluentAssertions.dll</HintPath>
         </Reference>
+        <Reference Include="Moq, Version=4.20.69.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+          <HintPath>..\packages\Moq.4.20.69\lib\net462\Moq.dll</HintPath>
+        </Reference>
+        <Reference Include="mscorlib" />
         <Reference Include="System"/>
         <Reference Include="System.ComponentModel.DataAnnotations" />
         <Reference Include="System.Configuration" />
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Net.Http" />
-        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
         </Reference>
-        <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-          <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+        <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+          <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
         </Reference>
         <Reference Include="System.Xml"/>
         <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
             <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
         </Reference>
         <Reference Include="System.Xml.Linq" />
+        <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+          <HintPath>..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+        </Reference>
+        <Reference Include="xunit.assert, Version=2.5.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+          <HintPath>..\packages\xunit.assert.2.5.2-pre.6\lib\netstandard1.1\xunit.assert.dll</HintPath>
+        </Reference>
+        <Reference Include="xunit.core, Version=2.5.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+          <HintPath>..\packages\xunit.extensibility.core.2.5.2-pre.6\lib\net452\xunit.core.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="BaseTest.cs" />
-        <Compile Include="DataContecst.Test\MyDequeAddTest.cs" />
-        <Compile Include="ObjectTestData.cs" />
+        <Compile Include="DataContext\ObjectTestData.cs" />
+        <Compile Include="MyDeque.Test\AddTests\MyDequeAddFirstTest.cs" />
+        <Compile Include="MyDeque.Test\AddTests\MyDequeAddLastTest.cs" />
+        <Compile Include="MyDeque.Test\MyDequeClearTest.cs" />
+        <Compile Include="MyDeque.Test\MyDequeConstructorTest.cs" />
+        <Compile Include="MyDeque.Test\MyDequeContainsTest.cs" />
+        <Compile Include="MyDeque.Test\MyDequeCopyToTest.cs" />
+        <Compile Include="MyDeque.Test\MyDequeIsReadOnlyTest.cs" />
+        <Compile Include="MyDeque.Test\MyDequeMyEnumeratorTest.cs" />
+        <Compile Include="MyDeque.Test\RemoveTests\MyDequeRemoveFirstTest.cs" />
+        <Compile Include="MyDeque.Test\RemoveTests\MyDequeRemoveLastTest.cs" />
+        <Compile Include="MyDeque.Test\RemoveTests\MyDequeRemoveTest.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
@@ -74,9 +100,19 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
+      <None Include="App.config" />
       <None Include="packages.config" />
     </ItemGroup>
+    <ItemGroup>
+      <Analyzer Include="..\packages\xunit.analyzers.1.4.0-pre.9\analyzers\dotnet\cs\xunit.analyzers.dll" />
+      <Analyzer Include="..\packages\xunit.analyzers.1.4.0-pre.9\analyzers\dotnet\cs\xunit.analyzers.fixes.dll" />
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+      <PropertyGroup>
+        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+      </PropertyGroup>
+    </Target>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">

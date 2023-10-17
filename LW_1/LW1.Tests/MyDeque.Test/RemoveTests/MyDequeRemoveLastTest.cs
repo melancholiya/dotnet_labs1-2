@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using FluentAssertions;
-using LW1.MyCollection;
+using LW1.Tests.DataContext;
 using NUnit.Framework;
+using TestCaseData = LW1.Tests.DataContext.TestCaseData;
 
-namespace LW1.Tests
+namespace LW1.Tests.RemoveTests
 {
     [TestFixture]
     public class MyDequeRemoveLastTest

@@ -1,9 +1,11 @@
 using System;
 using FluentAssertions;
 using LW1.MyCollection;
+using LW1.Tests.DataContext;
 using NUnit.Framework;
+using TestCaseData = LW1.Tests.DataContext.TestCaseData;
 
-namespace LW1.Tests
+namespace LW1.Tests.AddTests
 {
     [TestFixture]
     public class MyDequeAddLastTest
@@ -46,6 +48,7 @@ namespace LW1.Tests
             //Assert (Then)
             action.Should().Throw<ArgumentNullException>();
         }
+        //event is raised
         [Test,TestCaseSource(typeof(ObjectTestData), nameof(ObjectTestData.GetTestCasesWithValues))]
         public void GivenEventSubscription_WhenAddLast_ThenAddedToEndingEventIsRaised(TestCaseData testCaseData)
         {

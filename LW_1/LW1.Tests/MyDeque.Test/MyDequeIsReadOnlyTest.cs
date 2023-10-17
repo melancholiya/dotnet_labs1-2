@@ -1,5 +1,7 @@
 using FluentAssertions;
+using LW1.Tests.DataContext;
 using NUnit.Framework;
+using TestCaseData = LW1.Tests.DataContext.TestCaseData;
 
 namespace LW1.Tests;
 
@@ -12,7 +14,7 @@ public class MyDequeIsReadOnlyTest
         //Arrange
         var deque = testCaseData.Deque;
         //Act
-        bool isReadOnly = deque.IsReadOnly; 
+        var isReadOnly = deque.IsReadOnly; 
         //Assert
         isReadOnly.Should().BeFalse();
        
