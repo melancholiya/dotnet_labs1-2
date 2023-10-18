@@ -78,7 +78,7 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test
+      run: dotnet_labs_1-2_unit_tests
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
