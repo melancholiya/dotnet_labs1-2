@@ -77,8 +77,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Change directory to project
-      run: cd LW1
-      working-directory: LW1
+      run: cd $GITHUB_WORKSPACE/LW1
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
