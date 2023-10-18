@@ -76,9 +76,12 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Change directory to project
+      run: cd LW1
+
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet_labs_1-2_unit_tests
+      run: dotnet test LW1.Tests\LW1.Tests.csproj
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
