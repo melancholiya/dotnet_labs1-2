@@ -56,8 +56,8 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: dotnet_labs1-2\LW1\LW1.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: dotnet_labs1-2\LW1\LW1.Tests\LW1.Tests.csproj              # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Solution_Name: LW1/LW1.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
+      Test_Project_Path: LW1/LW1.Tests/LW1.Tests.csproj              # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
 
 
     steps:
@@ -76,9 +76,13 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Change directory to project
+      run: cd LW1
+      working-directory: LW1
+
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test LW1.Tests\LW1.Tests.csproj
+      run: dotnet test LW1.Tests/LW1.Tests.csproj
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
