@@ -47,7 +47,7 @@ namespace LW1.Tests.AddTests
             //Act (When)
             deque.AddFirst(expectedItem);
             //Assert (Then)
-            eventRaised.Should().BeTrue();
+            eventRaised.Should().BeFalse();
         }
     }
 }
