@@ -16,11 +16,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Go into directory
-      run: cd LW_1
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     - name: Test
+      working-directory: ./LW_1
+      run: | 
+        Get-ChildItem -Recurse
+    - name: Test2
       run: dotnet test --configuration Release
