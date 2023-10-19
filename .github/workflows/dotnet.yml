@@ -25,4 +25,5 @@ jobs:
       run: | 
         Get-ChildItem -Recurse
     - name: Test2
+      working-directory: ./LW_1
       run: dotnet test --configuration Release
